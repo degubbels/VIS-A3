@@ -1,29 +1,28 @@
-# vis20w-vue-d3
+# vis20w A3
+# Dennis Gubbels
 
-## Project setup
-```
-yarn install
-```
+procedure
+----
+x Use the vue.js boilerplate (https://github.com/asilcetin/vis20w-vue-d3) provided. If you have sufficient knowledge in any other reactive JS framework (React, Angular etc.) you're free to use those as well. In that case make sure you document in detail the framework you use and its setup in your README file.
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+x Import the datasets into the state of your web application on load. The choropleth and scatter plot components bind to that data in state.
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+x Define a 3x3 bi-variate color scheme for your two data dimensions (median income vs. burglary rate)
 
-### Run your tests
-```
-yarn run test
-```
+x Implement a year slider, which is by default set to the latest available year, 2014. This year selection will be used by both the choropleth and the scatter plot.
 
-### Lints and fixes files
-```
-yarn run lint
-```
+- Create a choropleth map and fill each state's polygon on the map with a color representing the median income vs. burglary rate in that state.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- Create a scatter plot with 1) the x-axis displaying the burglary rate in a state, and 2) y-axis displaying the median household income in a state. The background of the scatter plot should be divided and filled by the 3x3 color scheme you have defined.
+
+- Data points (circles) in the scatter plot should have a fixed size (radius) and represent one state each.
+
+- Label x and y axes of the scatter plot: 1) "Burglary Rate (per 100.000 people)" underneath the x-axis, 2) "Median Household Income (in $)" on the left side of the y-axis
+
+- Label the scales on x and y axes: select the intervals and formatting that you find useful / informative
+
+- On mouseover each data point (circle) shows a tooltip containing the name of that state.
+
+- Implement brushing on the scatter plot. Only the states corresponding to the data points which are selected by the brushed rectangle will be shown on the map and the other states will be grayed out. Clicking an empty area inside the scatter plot should deactivate the brush selection.
+
+- Interactivity on the map: on mouseclick on a state highlight the data point of that particular state on the scatter plot. Clicking an empty area inside the map component should deactivate the highlighting.
