@@ -27,10 +27,6 @@ export default {
       },
     }
   },
-  mounted() {
-    //
-    this.drawMap();
-  },
   methods: {
     drawMap() {
       const projection = d3.geoAlbersUsa().fitSize([this.svgWidth, this.svgHeight], mapStatesUSA);
@@ -64,10 +60,18 @@ export default {
       get() {
         return this.$store.getters.selectedYear;
       }
+    },
+    loaded: {
+      get() {
+        return this.$store.getters.loaded;
+      }
     }
   },
   watch: {
     selectedYear: function() {
+      this.drawMap();
+    },
+    loaded: function() {
       this.drawMap();
     }
   },

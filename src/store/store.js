@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
+    loaded: false,
     selectedYear: 2014,
     selectedStates: [],
     burglaryRates: [],
@@ -25,6 +26,7 @@ const store = new Vuex.Store({
     }   
   },
   getters: {
+    loaded: (state) => state.loaded,
     selectedYear: (state) => state.selectedYear,
     selectedStates: (state) => state.selectedStates,
     burglaryRates (state) {
@@ -56,28 +58,27 @@ const store = new Vuex.Store({
       if (el) {
         return el[state.selectedYear];
       } else {
-        //console.log(`State not found: ${stateName}`);
+        console.log(`State not found: ${stateName}`);
         return 0;
       }
     },
     medianIncomeForState: (state) => (stateName) => {
       let el = state.medianIncome.find((el) => el.State === stateName);
       if (el) {
-        console.log(`median income for ${stateName}: ${el[state.selectedYear]}`)
+        // console.log(`median income for ${stateName}: ${el[state.selectedYear]}`)
         return el[state.selectedYear];
       } else {
-        //console.log(`State not found: ${stateName}`);
+        // console.log(`State not found: ${stateName}`);
       return 0;
     }
     },
     colorForState: (state, getters) => (stateName) => {
       const burglaryRate = getters.burglaryRateForState(stateName);
       const medianIncome = getters.medianIncomeForState(stateName);
-      //console.log(stateName + burglaryRate + medianIncome);
 
+      // Todo get contextual range
       const xScale = d3.scaleLinear().range([0,2]).domain([0,2000]);
       const yScale = d3.scaleLinear().range([0,2]).domain([0,80000]);
-
 
       const x = Math.round(xScale(burglaryRate));
       const y = Math.round(yScale(medianIncome));
@@ -86,14 +87,19 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    loadData({state}) {
-      d3.csv('/usa_burglary_rates_1980-2014.csv').then((data) => { 
-        state.burglaryRates = data;
-      })
+    async loadData({state}) {
 
-      d3.csv('/usa_median_income_1984_2014.csv').then((data) => { 
-        state.medianIncome = data;
-      })
+      // Wait for both datasets to be loaded
+      await Promise.all([
+        d3.csv('/usa_burglary_rates_1980-2014.csv').then((data) => { 
+          state.burglaryRates = data;
+        }),
+        d3.csv('/usa_median_income_1984_2014.csv').then((data) => { 
+          state.medianIncome = data;
+        })
+      ]);
+
+      state.loaded = true;
     },
   }
 })
