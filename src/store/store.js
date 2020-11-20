@@ -4,6 +4,9 @@ import * as d3 from 'd3';
 
 Vue.use(Vuex);
 
+const bRRound = 200;
+const mIRound = 10000;
+
 const store = new Vuex.Store({
   state: {
     loaded: false,
@@ -39,6 +42,8 @@ const store = new Vuex.Store({
           })
         }
       }
+
+      // console.log(`burgl range: [${}, ${d3.max(result.map((el) => el.value))}]`);
       return result;
     },
     medianIncome (state) {
@@ -53,12 +58,36 @@ const store = new Vuex.Store({
       }
       return result;
     },
+    burglaryRateRange(state, getters) {
+      const data = getters.burglaryRates;
+
+      let min = d3.min(data.map((el) => el.value));
+      let max = d3.max(data.map((el) => el.value));
+
+      // Round to outer 200
+      min = Math.floor(min / bRRound) * bRRound;
+      max = Math.ceil(max / bRRound) * bRRound;
+
+      return [min, max];
+    },
+    medianIncomeRange(state, getters) {
+      const data = getters.medianIncome;
+
+      let min = d3.min(data.map((el) => el.value));
+      let max = d3.max(data.map((el) => el.value));
+
+      // Round to outer
+      min = Math.floor(min / mIRound) * mIRound;
+      max = Math.ceil(max / mIRound) * mIRound;
+
+      return [min, max];
+    },
     burglaryRateForState: (state) => (stateName) => {
       let el = state.burglaryRates.find((el) => el.State === stateName)
       if (el) {
         return el[state.selectedYear];
       } else {
-        console.log(`State not found: ${stateName}`);
+        // console.log(`State not found: ${stateName}`);
         return 0;
       }
     },
@@ -77,12 +106,12 @@ const store = new Vuex.Store({
       const medianIncome = getters.medianIncomeForState(stateName);
 
       // Todo get contextual range
-      const xScale = d3.scaleLinear().range([0,2]).domain([0,2000]);
-      const yScale = d3.scaleLinear().range([0,2]).domain([0,80000]);
+      const xScale = d3.scaleLinear().range([0,2]).domain(getters.burglaryRateRange);
+      const yScale = d3.scaleLinear().range([0,2]).domain(getters.medianIncomeRange);
 
       const x = Math.round(xScale(burglaryRate));
       const y = Math.round(yScale(medianIncome));
-      console.log(`${stateName}: ${x}, ${y}`);
+      // console.log(`${stateName}: ${x}, ${y}`);
       return state.colorScale[x][y];
     }
   },
