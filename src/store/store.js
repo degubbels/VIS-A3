@@ -58,6 +58,19 @@ const store = new Vuex.Store({
       }
       return result;
     },
+    combined (state) {
+      let result = [];
+      for (let i = 0; i < state.medianIncome.length; i++) {
+        if (state.selectedYear in state.medianIncome[i]) {
+          result.push({
+            state: state.medianIncome[i].State,
+            bR: state.burglaryRates[i][state.selectedYear],
+            mI: state.medianIncome[i][state.selectedYear]
+          })
+        }
+      }
+      return result;
+    },
     burglaryRateRange(state, getters) {
       const data = getters.burglaryRates;
 
@@ -98,22 +111,24 @@ const store = new Vuex.Store({
         return el[state.selectedYear];
       } else {
         // console.log(`State not found: ${stateName}`);
-      return 0;
-    }
+        return 0;
+      }
     },
     colorForState: (state, getters) => (stateName) => {
       const burglaryRate = getters.burglaryRateForState(stateName);
       const medianIncome = getters.medianIncomeForState(stateName);
 
       // Todo get contextual range
-      const xScale = d3.scaleLinear().range([0,2]).domain(getters.burglaryRateRange);
-      const yScale = d3.scaleLinear().range([0,2]).domain(getters.medianIncomeRange);
-
-      const x = Math.round(xScale(burglaryRate));
-      const y = Math.round(yScale(medianIncome));
+      const xScale = d3.scaleLinear().range([0,3]).domain(getters.burglaryRateRange);
+      const yScale = d3.scaleLinear().range([0,3]).domain(getters.medianIncomeRange);
+      // console.log(`${stateName}: ${burglaryRate}, ${medianIncome}`);
+      // console.log(`${stateName}: ${xScale(burglaryRate)}, ${yScale(medianIncome)}`);
+      const x = Math.floor(xScale(burglaryRate));
+      const y = Math.floor(yScale(medianIncome));
       // console.log(`${stateName}: ${x}, ${y}`);
       return state.colorScale[x][y];
-    }
+    },
+    colorScale: (state) => state.colorScale
   },
   actions: {
     async loadData({state}) {

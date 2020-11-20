@@ -11,15 +11,15 @@ x Define a 3x3 bi-variate color scheme for your two data dimensions (median inco
 
 x Implement a year slider, which is by default set to the latest available year, 2014. This year selection will be used by both the choropleth and the scatter plot.
 
-- Create a choropleth map and fill each state's polygon on the map with a color representing the median income vs. burglary rate in that state.
+x Create a choropleth map and fill each state's polygon on the map with a color representing the median income vs. burglary rate in that state.
 
-- Create a scatter plot with 1) the x-axis displaying the burglary rate in a state, and 2) y-axis displaying the median household income in a state. The background of the scatter plot should be divided and filled by the 3x3 color scheme you have defined.
+x Create a scatter plot with 1) the x-axis displaying the burglary rate in a state, and 2) y-axis displaying the median household income in a state. The background of the scatter plot should be divided and filled by the 3x3 color scheme you have defined.
 
-- Data points (circles) in the scatter plot should have a fixed size (radius) and represent one state each.
+x Data points (circles) in the scatter plot should have a fixed size (radius) and represent one state each.
 
-- Label x and y axes of the scatter plot: 1) "Burglary Rate (per 100.000 people)" underneath the x-axis, 2) "Median Household Income (in $)" on the left side of the y-axis
+x Label x and y axes of the scatter plot: 1) "Burglary Rate (per 100.000 people)" underneath the x-axis, 2) "Median Household Income (in $)" on the left side of the y-axis
 
-- Label the scales on x and y axes: select the intervals and formatting that you find useful / informative
+x Label the scales on x and y axes: select the intervals and formatting that you find useful / informative
 
 - On mouseover each data point (circle) shows a tooltip containing the name of that state.
 

@@ -25,7 +25,11 @@ export default {
       svgPadding: {
         top: 20, right: 20, bottom: 20, left: 20,
       },
+      map: mapStatesUSA.features
     }
+  },
+  mounted() {
+    this.map = this.map.filter((d) => d.properties.name != "Puerto Rico");
   },
   methods: {
     drawMap() {
@@ -34,7 +38,7 @@ export default {
 
       //const el = d3.select('#map');
       d3.select('#map').selectAll('.path')
-        .data(mapStatesUSA.features)
+        .data(this.map)
         .enter().append('path')
         .attr('d', path)
         .attr('fill', (state) => this.$store.getters.colorForState(state.properties.name));
