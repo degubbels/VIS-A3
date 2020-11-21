@@ -1,11 +1,14 @@
 <template>
-  <div class="vis-component" ref="chart">
+  <div class="vis-component" ref="chart" id="scatterplot-component">
     <!-- <div class="placeholder">
       <b>Here comes the scatterplot</b>.
       <p>Burglary rates for the selected year: {{ burglaryRates }}</p>
     </div> -->
     <svg id="plot" class="main-svg" :width="svgWidth" :height="svgHeight">
     </svg>
+    <div class="scatterTooltip" v-show="showScatterTooltip" ref="scatterTooltip">
+      {{scatterTooltipMsg}}
+    </div>
   </div>
 </template>
 
@@ -23,6 +26,8 @@ export default {
       svgPadding: {
         top: 20, right: 20, bottom: 20, left: 20,
       },
+      scatterTooltipMsg: '',
+      showScatterTooltip: false
     }
   },
   mounted() {
@@ -93,8 +98,17 @@ export default {
         .attr("r", 6)
         .attr("cx", d => this.xScale(d.bR))
         .attr("cy", d => this.yScale(d.mI))
-        .on('click', (d) => console.log(d));
-        // .on('click', (d) => console.log(`${d.state}: mI=${d.mI}, bR=${d.bR}`));
+        .on('mouseover', (d) => {
+
+          this.scatterTooltipMsg = d.state;
+          this.showScatterTooltip = true;
+          const pos = d3.mouse(d3.select('#scatterplot-component').node());
+          this.$refs['scatterTooltip'].style.left = `${pos[0] + 20}px`;
+          this.$refs['scatterTooltip'].style.top = `${pos[1] - 25}px`;
+        })
+        .on('mouseout', () => {
+          this.showScatterTooltip = false;
+        });
     }
   },
   computed: {
@@ -156,8 +170,24 @@ export default {
 }
 
 .dot {
-  fill: none;
+  fill: transparent;
   stroke: black;
   stroke-width: 2;
+}
+
+/* .scattertooltip {
+  font-size: medium;
+  font-weight: bold;
+  /* fill: rgba(255,255,255,0); */
+  /* fill: white; */
+
+.scatterTooltip {
+  display: inline-block;
+  position: absolute;
+  z-index: 100;
+
+  background-color: rgba(255,255,255,0.7);
+  padding: 2px 4px;
+  border-radius: 4px;
 }
 </style>
