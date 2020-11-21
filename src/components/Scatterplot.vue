@@ -94,7 +94,8 @@ export default {
         .data(this.combined)
         .enter()
         .append('circle')
-        .attr('class', 'dot')
+        .attr('id', (d) => `circle-${d.state.replace(' ', '_')}`)
+        .attr('class', 'circle')
         .attr("r", 6)
         .attr("cx", d => this.xScale(d.bR))
         .attr("cy", d => this.yScale(d.mI))
@@ -109,6 +110,15 @@ export default {
         .on('mouseout', () => {
           this.showScatterTooltip = false;
         });
+    },
+    highlightCircle(state) {
+      d3.select(`#circle-${state.replace(' ', '_')}`)
+        .classed('circle-highlight', true)
+        .raise();
+    },
+    removeCircleHighlight(state) {
+      d3.select(`#circle-${state.replace(' ', '_')}`)
+        .classed('circle-highlight', false);
     }
   },
   computed: {
@@ -151,7 +161,17 @@ export default {
       get() {
         return this.$store.getters.loaded;
       }
-    }
+    },
+    highlightState: {
+      get() {
+        return this.$store.getters.highlightState;
+      }
+    },
+    highlightedState: {
+      get() {
+        return this.$store.getters.highlightedState;
+      }
+    },
   },
   watch: {
     loaded: function() {
@@ -159,6 +179,24 @@ export default {
     },
     selectedYear: function() {
       this.draw();
+
+      if (this.highlightState) {
+        this.highlightCircle(this.highlightedState);
+      }
+    },
+    highlightedState: function(newVal, oldVal) {
+
+      if (oldVal) {
+        this.removeCircleHighlight(oldVal)
+      }
+      this.highlightCircle(newVal);
+    },
+    highlightState: function(newVal) {
+      if (newVal === false) {
+        this.removeCircleHighlight(this.highlightedState);
+      } else {
+        this.highlightCircle(this.highlightedState);
+      }
     }
   },
 }
@@ -169,17 +207,24 @@ export default {
   margin: 80px;
 }
 
-.dot {
+.circle {
   fill: transparent;
   stroke: black;
   stroke-width: 2;
 }
 
-/* .scattertooltip {
-  font-size: medium;
-  font-weight: bold;
-  /* fill: rgba(255,255,255,0); */
-  /* fill: white; */
+@keyframes blink {
+  /* 0%   { stroke-width: 2%; } */
+  50%  { stroke-width: 6px; }
+  /* 100% { stroke-width: 100%; } */
+}
+
+.circle-highlight {
+  fill: yellow;
+  opacity: 0.8;
+
+  animation: blink 0.6s;
+}
 
 .scatterTooltip {
   display: inline-block;

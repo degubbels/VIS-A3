@@ -33,6 +33,14 @@ export default {
   },
   methods: {
     drawMap() {
+      // Create background click catcher
+      d3.select('#map')
+        .append('rect')
+        .attr('width', this.svgWidth)
+        .attr('height', this.svgHeight)
+        .attr('fill', 'transparent')
+        .on('click', this.removeHighlight);
+
       const projection = d3.geoAlbersUsa().fitSize([this.svgWidth, this.svgHeight], mapStatesUSA);
       let path = d3.geoPath().projection(projection);
 
@@ -41,7 +49,13 @@ export default {
         .data(this.map)
         .enter().append('path')
         .attr('d', path)
-        .attr('fill', (state) => this.$store.getters.colorForState(state.properties.name));
+        .attr('fill', (state) => this.$store.getters.colorForState(state.properties.name))
+        .on('click', (d) => {
+          this.$store.commit('setHighlightedState', d.properties.name);
+        });
+    },
+    removeHighlight() {
+      this.$store.commit('removeStateHighlight');
     }
   },
   computed: {

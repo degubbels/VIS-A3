@@ -18,7 +18,9 @@ const store = new Vuex.Store({
       ['#c6c2cb', '#73a7cb', '#2d5f7e'],
       ['#bb5864', '#6c4c64', '#2b2b3e'],
       ['#a1212c', '#5e1c2c', '#25101b']
-    ]
+    ],
+    highlightedState: '',
+    highlightState: false
   },
   mutations: {
     changeSelectedYear (state, year) {
@@ -26,7 +28,14 @@ const store = new Vuex.Store({
     },
     changeSelectedState(state, val) {
       state.selectedStates.push(val);
-    }   
+    },
+    setHighlightedState(state, val) {
+      state.highlightedState = val;
+      state.highlightState = true;
+    },
+    removeStateHighlight(state) {
+      state.highlightState = false;
+    }
   },
   getters: {
     loaded: (state) => state.loaded,
@@ -128,7 +137,9 @@ const store = new Vuex.Store({
       // console.log(`${stateName}: ${x}, ${y}`);
       return state.colorScale[x][y];
     },
-    colorScale: (state) => state.colorScale
+    colorScale: (state) => state.colorScale,
+    highlightState: (state) => state.highlightState,
+    highlightedState: (state) => state.highlightedState
   },
   actions: {
     async loadData({state}) {

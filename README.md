@@ -21,7 +21,7 @@ x Label x and y axes of the scatter plot: 1) "Burglary Rate (per 100.000 people)
 
 x Label the scales on x and y axes: select the intervals and formatting that you find useful / informative
 
-- On mouseover each data point (circle) shows a tooltip containing the name of that state.
+x On mouseover each data point (circle) shows a tooltip containing the name of that state.
 
 - Implement brushing on the scatter plot. Only the states corresponding to the data points which are selected by the brushed rectangle will be shown on the map and the other states will be grayed out. Clicking an empty area inside the scatter plot should deactivate the brush selection.
 
