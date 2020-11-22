@@ -149,10 +149,10 @@ const store = new Vuex.Store({
 
       // Wait for both datasets to be loaded
       await Promise.all([
-        d3.csv('/usa_burglary_rates_1980-2014.csv').then((data) => { 
+        d3.csv('./usa_burglary_rates_1980-2014.csv').then((data) => { 
           state.burglaryRates = data;
         }),
-        d3.csv('/usa_median_income_1984_2014.csv').then((data) => { 
+        d3.csv('./usa_median_income_1984_2014.csv').then((data) => { 
           state.medianIncome = data;
         })
       ]);

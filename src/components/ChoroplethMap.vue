@@ -54,7 +54,7 @@ export default {
             || this.selectedStates.includes(state.properties.name)) {
               return this.$store.getters.colorForState(state.properties.name);
           } else {
-            return 'lightgray';
+            return '#efefef';
           }
         })
         .on('click', (d) => {

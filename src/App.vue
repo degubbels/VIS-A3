@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>Comparing robbery rate and median income across US states</h1>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
