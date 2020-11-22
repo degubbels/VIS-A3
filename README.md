@@ -1,28 +1,6 @@
 # vis20w A3
 # Dennis Gubbels
 
-procedure
-----
-x Use the vue.js boilerplate (https://github.com/asilcetin/vis20w-vue-d3) provided. If you have sufficient knowledge in any other reactive JS framework (React, Angular etc.) you're free to use those as well. In that case make sure you document in detail the framework you use and its setup in your README file.
+I started with the Vue template that was provided. From there I filled in the two components for the map and scatter plot. The coloring is based on a 3x3 bivariate color scheme. The y/blue axis shows Median Income and the x;x/red axis measures Burglary Rate. The data is always adjusted to the selected year. The scale is adjusted to a round number that fits the extent of data for the selected year. This means that the axes do not start at 0. Nonetheless, this method was deemed preferable in order to assure a good spread of the data across the color scale as the range of data changes significantly over the years. 
 
-x Import the datasets into the state of your web application on load. The choropleth and scatter plot components bind to that data in state.
-
-x Define a 3x3 bi-variate color scheme for your two data dimensions (median income vs. burglary rate)
-
-x Implement a year slider, which is by default set to the latest available year, 2014. This year selection will be used by both the choropleth and the scatter plot.
-
-x Create a choropleth map and fill each state's polygon on the map with a color representing the median income vs. burglary rate in that state.
-
-x Create a scatter plot with 1) the x-axis displaying the burglary rate in a state, and 2) y-axis displaying the median household income in a state. The background of the scatter plot should be divided and filled by the 3x3 color scheme you have defined.
-
-x Data points (circles) in the scatter plot should have a fixed size (radius) and represent one state each.
-
-x Label x and y axes of the scatter plot: 1) "Burglary Rate (per 100.000 people)" underneath the x-axis, 2) "Median Household Income (in $)" on the left side of the y-axis
-
-x Label the scales on x and y axes: select the intervals and formatting that you find useful / informative
-
-x On mouseover each data point (circle) shows a tooltip containing the name of that state.
-
-x Implement brushing on the scatter plot. Only the states corresponding to the data points which are selected by the brushed rectangle will be shown on the map and the other states will be grayed out. Clicking an empty area inside the scatter plot should deactivate the brush selection.
-
-x Interactivity on the map: on mouseclick on a state highlight the data point of that particular state on the scatter plot. Clicking an empty area inside the map component should deactivate the highlighting.
+The map shows the 50 states + D.C colored according to the median income and burglary rate. Puerto Rico was removed from the map since it was not included in the dataset. The scatter plot shows all states represented as circle on the plot. Hovering over these circles showes a tooltip with the name of the state. The plot is divided into the nine differently colored segments. Clicking on a state in the map will highlight that state in the scatter plot. Clicking outside the map elements removes this highlight. The user is also able to select (brush) a section of the scatter plot to show only these states on the map. States not in this selection will be grayed out. Clicking outside this selection in the plot clears the selection. Finally, scales, axis labels and a page heading were added to complete the visualization.
