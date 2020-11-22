@@ -38,8 +38,8 @@ export default {
       this.drawBackground();
       this.drawXAxis();
       this.drawYAxis();
-      this.drawPlot();
       this.drawBrush();
+      this.drawPlot();
     },
     drawBackground() {
       d3.select('#plot')
