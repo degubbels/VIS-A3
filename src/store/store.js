@@ -29,6 +29,9 @@ const store = new Vuex.Store({
     changeSelectedState(state, val) {
       state.selectedStates.push(val);
     },
+    setSelectedStates(state, vals) {
+      state.selectedStates = vals;
+    },
     setHighlightedState(state, val) {
       state.highlightedState = val;
       state.highlightState = true;

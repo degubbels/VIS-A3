@@ -39,10 +39,12 @@ export default {
       this.drawXAxis();
       this.drawYAxis();
       this.drawPlot();
+      this.drawBrush();
     },
     drawBackground() {
       d3.select('#plot')
-        .append('g').selectAll('rect')
+        .append('g')
+        .selectAll('rect')
         .data(this.colorScale).enter()
         .append('g')
         .attr('transform', (d, i) => `translate(${(this.svgWidth / 3) * i}, 0)`)
@@ -110,6 +112,42 @@ export default {
         .on('mouseout', () => {
           this.showScatterTooltip = false;
         });
+    },
+    drawBrush() {
+      d3.select('#plot')
+        .append('g')
+        .call(d3.brush()
+        .extent([[0, 0], [this.svgWidth, this.svgHeight]])
+        .on("end", () => {
+
+          if (d3.event.selection) {
+            const ext = d3.event.selection;
+
+            const xMin = this.xScale.invert(ext[0][0]);
+            const xMax = this.xScale.invert(ext[1][0]);
+            const yMin = this.yScale.invert(ext[1][1]);
+            const yMax = this.yScale.invert(ext[0][1]);
+
+            // Find states in selection
+            const selectedStates = [];
+            d3.selectAll('.circle').each((d) => {
+              const bR = parseInt(d.bR, 10);
+              const mI = parseInt(d.mI, 10);
+
+              if ( xMin <= bR && bR <= xMax
+                && yMin <= mI && mI <= yMax) {
+
+                selectedStates.push(d.state);
+              }
+            });
+
+            this.$store.commit('setSelectedStates', selectedStates);
+          } else {
+            // Reset selection
+            this.$store.commit('setSelectedStates', []);
+          }
+        })
+      )
     },
     highlightCircle(state) {
       d3.select(`#circle-${state.replace(' ', '_')}`)

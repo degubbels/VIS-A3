@@ -49,7 +49,14 @@ export default {
         .data(this.map)
         .enter().append('path')
         .attr('d', path)
-        .attr('fill', (state) => this.$store.getters.colorForState(state.properties.name))
+        .attr('fill', (state) => {
+          if (this.selectedStates.length == 0
+            || this.selectedStates.includes(state.properties.name)) {
+              return this.$store.getters.colorForState(state.properties.name);
+          } else {
+            return 'lightgray';
+          }
+        })
         .on('click', (d) => {
           this.$store.commit('setHighlightedState', d.properties.name);
         });
@@ -90,6 +97,9 @@ export default {
       this.drawMap();
     },
     loaded: function() {
+      this.drawMap();
+    },
+    selectedStates: function() {
       this.drawMap();
     }
   },

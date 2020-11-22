@@ -23,6 +23,6 @@ x Label the scales on x and y axes: select the intervals and formatting that you
 
 x On mouseover each data point (circle) shows a tooltip containing the name of that state.
 
-- Implement brushing on the scatter plot. Only the states corresponding to the data points which are selected by the brushed rectangle will be shown on the map and the other states will be grayed out. Clicking an empty area inside the scatter plot should deactivate the brush selection.
+x Implement brushing on the scatter plot. Only the states corresponding to the data points which are selected by the brushed rectangle will be shown on the map and the other states will be grayed out. Clicking an empty area inside the scatter plot should deactivate the brush selection.
 
-- Interactivity on the map: on mouseclick on a state highlight the data point of that particular state on the scatter plot. Clicking an empty area inside the map component should deactivate the highlighting.
+x Interactivity on the map: on mouseclick on a state highlight the data point of that particular state on the scatter plot. Clicking an empty area inside the map component should deactivate the highlighting.
